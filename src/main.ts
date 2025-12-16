@@ -8,10 +8,11 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 	<button id="tab">→</button>
   </div>
 `
+
+const tb = new TextBox(document.getElementById("textbox")!)
+
 const tab = () => {
 	console.log("Hello");
 }
 
-document.getElementById("tab")?.addEventListener('click', tab);
-
-const tb = new TextBox(document.getElementById("textbox")!)
+document.getElementById("tab")?.addEventListener('click', tb.advanceCursor);
