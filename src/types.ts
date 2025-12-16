@@ -13,5 +13,6 @@ export type Quantifier = {
 
 type Unit = 
 	"kg" |
-	"min" |
-	"km";
+	"min"|
+	"km" |
+	null;
