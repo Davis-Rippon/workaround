@@ -105,8 +105,7 @@ button:focus-visible {
   /* Layout */
   width: 100%;
   min-height: 200px;
-  padding: 8px 10px;
-  box-sizing: border-box;
+  padding: 8px 5px;
 
   /* Text behavior */
   white-space: pre-wrap;   /* preserve newlines, wrap long lines */
