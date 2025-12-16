@@ -94,3 +94,65 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.textbox {
+  /* Layout */
+  width: 100%;
+  min-height: 200px;
+  padding: 8px 10px;
+  box-sizing: border-box;
+
+  /* Text behavior */
+  white-space: pre-wrap;   /* preserve newlines, wrap long lines */
+  word-break: break-word;
+  tab-size: 4;
+
+  /* Font */
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 14px;
+  line-height: 1.4;
+
+  /* Appearance */
+  background: #111;
+  color: rgba(255,255,255,1);
+  border: 1px solid #333;
+  border-radius: 4px;
+
+  /* Editor feel */
+  outline: none;           /* remove default focus ring */
+  caret-color: #fff;
+}
+
+/* Focus state */
+.textbox:focus {
+  border-color: #555;
+}
+
+/* Selection styling */
+.textbox::selection {
+  background: #2a5bd7;
+  color: #fff;
+}
+
+/* Placeholder (when using data-placeholder) */
+.textbox:empty::before {
+  content: attr(data-placeholder);
+  color: #666;
+  pointer-events: none;
+}
+
+.entry {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+}
+
+.entry > div {
+	flex: 1;
+}
