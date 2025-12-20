@@ -11,8 +11,4 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 
 const tb = new TextBox(document.getElementById("textbox")!)
 
-const tab = () => {
-	console.log("Hello");
-}
-
 document.getElementById("tab")?.addEventListener('click', tb.advanceCursor);
