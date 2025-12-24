@@ -32,4 +32,9 @@ export const getObject = (parent: HTMLElement, id: string): HTMLElement => {
 	return obj;
 }
 
-export const parseQuantifier = ({value, unit}: Quantifier) => `${value}${unit}`;
+export const parseQuantifier = (q: Quantifier | null | undefined) => {
+	if (!q) return "";
+
+	const {value, unit} = q;
+	return `${value}${unit}`;
+}
