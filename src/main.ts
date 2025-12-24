@@ -14,8 +14,13 @@ const tb = new TextBox(document.getElementById("textbox")!)
 // Bind tab button and key to advance cursor
 document.getElementById("tab")?.addEventListener('click', tb.advanceCursor);
 document.addEventListener('keydown', (e) => {
-	if (e.key === "Tab") {
+	if (e.key === "Tab" && e.shiftKey) {
+		console.log("SHIFTTBA");
+		e.preventDefault();
+		tb.retreatCursor();
+	} else if (e.key === "Tab") {
 		e.preventDefault();
 		tb.advanceCursor();
 	}
 });
+
