@@ -11,4 +11,11 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 
 const tb = new TextBox(document.getElementById("textbox")!)
 
+// Bind tab button and key to advance cursor
 document.getElementById("tab")?.addEventListener('click', tb.advanceCursor);
+document.addEventListener('keydown', (e) => {
+	if (e.key === "Tab") {
+		e.preventDefault();
+		tb.advanceCursor();
+	}
+});
