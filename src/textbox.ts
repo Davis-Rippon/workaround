@@ -54,7 +54,7 @@ export class TextBox {
 	}
 
 	/*
-	* Push a blank entry onto the textbox, internally and on the DOM
+		* Push a blank entry onto the textbox, internally and on the DOM
 	* Doesnt increment row_idx
 	* Can currently only append entry to end of list
 	*/
@@ -75,48 +75,44 @@ export class TextBox {
 				this.current_focus.removeAttribute("contenteditable");
 			}
 
-		if ((this.cursor_col_idx = (this.cursor_col_idx + 1) % 3) === 0) 
-			{
-				console.log("End of row - creating new entry");
-				this.cursor_row_idx++;
-				this.newEntry();
-			}
+			if ((this.cursor_col_idx = (this.cursor_col_idx + 1) % 3) === 0) 
+				{
+					console.log("End of row - creating new entry");
+					this.cursor_row_idx++;
+					this.newEntry();
+				}
 
-		const entry_html = getObject(this.object, `entry-${this.cursor_row_idx}`);
+				const entry_html = getObject(this.object, `entry-${this.cursor_row_idx}`);
 
-		console.log(entry_html);
+				console.log(entry_html);
 
-		this.current_focus = getObject(entry_html, `c${this.cursor_col_idx}`);
-		this.current_focus.setAttribute("contenteditable", "true");
-		this.current_focus.focus();
+				this.current_focus = getObject(entry_html, `c${this.cursor_col_idx}`);
+				this.current_focus.setAttribute("contenteditable", "true");
+				this.current_focus.focus();
 	}
 
 
 	retreatCursor = () => {
-		if (this.current_focus) 
-			{
-				this.current_focus.removeAttribute("contenteditable");
-			}
+		if (this.current_focus) {
+			this.current_focus.removeAttribute("contenteditable");
+		}
 
-		if ((this.cursor_col_idx = (this.cursor_col_idx - 1)) < 0) 
-			{
-				if (this.cursor_row_idx === 0)
-					{
-						console.log("Cannot retreat cursor");
-						return;
-					}
-				console.log("End of row - creating new entry");
-				this.cursor_row_idx--;
-				this.newEntry();
-			}
+		if (this.cursor_row_idx === 0 && this.cursor_col_idx === 0) {
+			console.log("Cannot retreat cursor");
+			return;
+		}
+
+		this.cursor_col_idx--;
+
+		if (this.cursor_col_idx < 0) {
+			this.cursor_col_idx = 2;
+			this.cursor_row_idx--;
+		}
 
 		const entry_html = getObject(this.object, `entry-${this.cursor_row_idx}`);
-
-		console.log(entry_html);
-
 		this.current_focus = getObject(entry_html, `c${this.cursor_col_idx}`);
 		this.current_focus.setAttribute("contenteditable", "true");
 		this.current_focus.focus();
-	}
+	};
 
 }
