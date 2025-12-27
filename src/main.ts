@@ -1,5 +1,6 @@
 import './style.css'
 import { TextBox } from './textbox';
+import { toggleBrightness } from './util';
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 <div>
@@ -19,7 +20,6 @@ const tb = new TextBox(document.getElementById("textbox")!)
 document.getElementById("tab-r")?.addEventListener('click', tb.advanceCursor);
 document.addEventListener('keydown', (e) => {
 	if (e.key === "Tab" && e.shiftKey) {
-		console.log("SHIFTTBA");
 		e.preventDefault();
 		tb.retreatCursor();
 	} else if (e.key === "Tab") {
@@ -28,3 +28,5 @@ document.addEventListener('keydown', (e) => {
 	}
 });
 
+document.getElementById("toggle")?.addEventListener('click', toggleBrightness);
+document.documentElement.dataset.theme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";

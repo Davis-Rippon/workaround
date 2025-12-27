@@ -38,3 +38,40 @@ export const parseQuantifier = (q: Quantifier | null | undefined) => {
 	const {value, unit} = q;
 	return `${value}${unit}`;
 }
+
+export const toggleBrightness = () => {
+  const root = document.documentElement;
+  const isDark = root.dataset.theme === "dark";
+
+  // toggle theme
+  root.dataset.theme = isDark ? "light" : "dark";
+
+  // update icon
+  const toggle = document.getElementById("toggle");
+  if (toggle) {
+    toggle.innerText = isDark ? "🌙" : "☀️";
+  }
+};
+
+
+export const syncToggleIcon = () => {
+  const toggle = document.getElementById("toggle");
+  if (!toggle) return;
+
+  toggle.innerText =
+    document.documentElement.dataset.theme === "dark" ? "☀️" : "🌙";
+};
+
+
+export const placeCaretAtEnd = (el: HTMLElement) => {
+  const range = document.createRange();
+  const sel = window.getSelection();
+  if (!sel) return;
+
+  range.selectNodeContents(el);
+  range.collapse(false); // false = end
+
+  sel.removeAllRanges();
+  sel.addRange(range);
+}
+
