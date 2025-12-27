@@ -19,20 +19,30 @@ export class TextBox {
 		];
 
 		this.current_focus = null;
-
-		// Render HEADER_ENTRY
-		// this.buildHeader();
 	}
+
+
+	private placeCaretAtEnd(el: HTMLElement) {
+		const range = document.createRange();
+		const sel = window.getSelection();
+		if (!sel) return;
+
+		range.selectNodeContents(el);
+		range.collapse(false); // false = end
+
+		sel.removeAllRanges();
+		sel.addRange(range);
+	}
+
 
 	/*
 	 * Render changes to a specifc entry 
 	 */
 	renderEntry(entry_idx?: number) {
 		// If no entry_idx specified then render the most recent entry
-		if (!entry_idx) {
+		if (entry_idx === undefined) {
 			entry_idx = this.cursor_row_idx;
 		}
-
 		const entry_html = getObject(this.object, `entry-${entry_idx}`);
 
 		entry_html.setAttribute("class", "entry");
@@ -89,6 +99,7 @@ export class TextBox {
 				this.current_focus = getObject(entry_html, `c${this.cursor_col_idx}`);
 				this.current_focus.setAttribute("contenteditable", "true");
 				this.current_focus.focus();
+				this.placeCaretAtEnd(this.current_focus);
 	}
 
 
@@ -113,6 +124,7 @@ export class TextBox {
 		this.current_focus = getObject(entry_html, `c${this.cursor_col_idx}`);
 		this.current_focus.setAttribute("contenteditable", "true");
 		this.current_focus.focus();
+		this.placeCaretAtEnd(this.current_focus);
 	};
 
 }
