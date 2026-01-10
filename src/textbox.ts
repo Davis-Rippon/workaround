@@ -66,7 +66,7 @@ export class TextBox {
         * Doesnt increment row_idx
         * Can currently only append entry to end of list
 	*/
-	newEntry() {
+	private newEntry() {
 		this.state.push({...Constants.NEW_ENTRY});
 		const entry_html = getObject(this.object, `entry-${this.cursor_row_idx}`);
 		entry_html.setAttribute("class", "entry");
