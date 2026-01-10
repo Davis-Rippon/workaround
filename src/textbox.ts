@@ -61,10 +61,10 @@ export class TextBox {
 		this.object.appendChild(entry_html);
 	}
 
-	/*
-		* Push a blank entry onto the textbox, internally and on the DOM
-	* Doesnt increment row_idx
-	* Can currently only append entry to end of list
+    /*
+        * Push a blank entry onto the textbox, internally and on the DOM
+        * Doesnt increment row_idx
+        * Can currently only append entry to end of list
 	*/
 	newEntry() {
 		this.state.push({...Constants.NEW_ENTRY});
