@@ -1,4 +1,4 @@
-export type State = [Entry];
+export type State = Entry[];
 
 export type Entry = {
 	name: string;

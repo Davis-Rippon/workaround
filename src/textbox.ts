@@ -11,12 +11,10 @@ export class TextBox {
 	constructor(textbox: HTMLElement) {
 		this.object = textbox;
 
-		this.cursor_row_idx = 0;
+		this.cursor_row_idx = -1;
 		this.cursor_col_idx = -1; // Dumb but unimportant
 
-		this.state = [
-			NEW_ENTRY
-		];
+		this.state = [ ];
 
 		this.current_focus = null;
 	}
@@ -28,7 +26,7 @@ export class TextBox {
 		if (!sel) return;
 
 		range.selectNodeContents(el);
-		range.collapse(false); // false = end
+		range.collapse(false); 
 
 		sel.removeAllRanges();
 		sel.addRange(range);
@@ -69,14 +67,34 @@ export class TextBox {
 	* Can currently only append entry to end of list
 	*/
 	newEntry() {
-		this.state.push(Constants.NEW_ENTRY);
+		this.state.push({...Constants.NEW_ENTRY});
 		const entry_html = getObject(this.object, `entry-${this.cursor_row_idx}`);
 		entry_html.setAttribute("class", "entry");
 		entry_html.innerHTML = `
-		<div id="c0"></div>
-		<div id="c1"></div>
-		<div id="c2"></div>
+		<div class="cell" data-col="0"></div>
+		<div class="cell" data-col="1"></div>
+		<div class="cell" data-col="2"></div>
 		`
+	}
+
+	syncEntry() {
+		if (!this.current_focus) return;
+
+		const entry = this.state[this.cursor_row_idx];
+
+		switch (this.cursor_col_idx) {
+			case 0:
+				entry.name = this.current_focus.innerText;
+			break;
+			case 1:
+			break;
+			case 2:
+			break;
+			default:
+				throw new Error("Invalid cursor_col_idx");
+		}
+
+		console.log(this.state);
 	}
 
 	advanceCursor = () => {
@@ -89,14 +107,16 @@ export class TextBox {
 				{
 					console.log("End of row - creating new entry");
 					this.cursor_row_idx++;
-					this.newEntry();
+
+					if (!document.getElementById(`entry-${this.cursor_row_idx}`))
+						this.newEntry();
 				}
 
 				const entry_html = getObject(this.object, `entry-${this.cursor_row_idx}`);
 
-				console.log(entry_html);
+				this.current_focus = entry_html.querySelector(`[data-col="${this.cursor_col_idx}"]`);
+				if (!this.current_focus) throw new Error("Cell does not exist");
 
-				this.current_focus = getObject(entry_html, `c${this.cursor_col_idx}`);
 				this.current_focus.setAttribute("contenteditable", "true");
 				this.current_focus.focus();
 				this.placeCaretAtEnd(this.current_focus);
@@ -121,7 +141,9 @@ export class TextBox {
 		}
 
 		const entry_html = getObject(this.object, `entry-${this.cursor_row_idx}`);
-		this.current_focus = getObject(entry_html, `c${this.cursor_col_idx}`);
+		this.current_focus = entry_html.querySelector(`[data-col="${this.cursor_col_idx}"]`);
+		if (!this.current_focus) throw new Error("Cell does not exist");
+
 		this.current_focus.setAttribute("contenteditable", "true");
 		this.current_focus.focus();
 		this.placeCaretAtEnd(this.current_focus);
