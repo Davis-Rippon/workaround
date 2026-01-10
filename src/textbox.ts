@@ -1,10 +1,10 @@
 import type { State } from "./types";
-import { Constants, getObject, NEW_ENTRY, parseQuantifier } from "./util";
+import { Constants, getObject, parseQuantifier } from "./util";
 
 export class TextBox {
 	state: State;
 	object: HTMLElement;
-	current_focus: HTMLElement | null;
+	_current_focus: HTMLElement | null;
 	cursor_row_idx: number;
 	cursor_col_idx: number;
 
@@ -16,7 +16,7 @@ export class TextBox {
 
 		this.state = [ ];
 
-		this.current_focus = null;
+		this._current_focus = null;
 	}
 
 
@@ -77,10 +77,12 @@ export class TextBox {
 		`
 	}
 
-	syncEntry() {
-		if (!this.current_focus) return;
 
-		const entry = this.state[this.cursor_row_idx];
+
+    private onInput = () => {
+        if (!this.current_focus) return;
+
+        let entry = this.state[this.cursor_row_idx];
 
 		switch (this.cursor_col_idx) {
 			case 0:
@@ -94,8 +96,20 @@ export class TextBox {
 				throw new Error("Invalid cursor_col_idx");
 		}
 
-		console.log(this.state);
-	}
+        console.log(this.state);
+    }
+
+    set current_focus(el : HTMLElement | null) {
+        this._current_focus?.removeEventListener('input', this.onInput);
+
+        this._current_focus = el;
+
+        this._current_focus?.addEventListener('input', this.onInput);
+    }
+
+    get current_focus() {
+        return this._current_focus;
+    }
 
 	advanceCursor = () => {
 		if (this.current_focus) 
@@ -124,13 +138,14 @@ export class TextBox {
 
 
 	retreatCursor = () => {
-		if (this.current_focus) {
-			this.current_focus.removeAttribute("contenteditable");
+		if (this.cursor_row_idx <= 0 && this.cursor_col_idx <= 0) {
+			console.log("Cannot retreat cursor");
+            if (this.current_focus) this.current_focus.focus();
+			return;
 		}
 
-		if (this.cursor_row_idx === 0 && this.cursor_col_idx === 0) {
-			console.log("Cannot retreat cursor");
-			return;
+		if (this.current_focus) {
+			this.current_focus.removeAttribute("contenteditable");
 		}
 
 		this.cursor_col_idx--;
@@ -150,3 +165,4 @@ export class TextBox {
 	};
 
 }
+
