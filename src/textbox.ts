@@ -72,8 +72,8 @@ export class TextBox {
 		entry_html.setAttribute("class", "entry");
 		entry_html.innerHTML = `
 		<div class="cell" data-col="0"></div>
-		<div class="cell" data-col="1"></div>
-		<div class="cell" data-col="2"></div>
+		<div class="cell" inputmode="decimal" data-col="1"></div>
+		<div class="cell" inputmode="decimal" data-col="2"></div>
 		`
 	}
 
@@ -89,6 +89,7 @@ export class TextBox {
 				entry.name = this.current_focus.innerText;
 			break;
 			case 1:
+
 			break;
 			case 2:
 			break;
@@ -132,7 +133,7 @@ export class TextBox {
 				if (!this.current_focus) throw new Error("Cell does not exist");
 
 				this.current_focus.setAttribute("contenteditable", "true");
-				this.current_focus.focus();
+				this.current_focus.focus({ preventScroll: true });
 				this.placeCaretAtEnd(this.current_focus);
 	}
 
@@ -140,7 +141,7 @@ export class TextBox {
 	retreatCursor = () => {
 		if (this.cursor_row_idx <= 0 && this.cursor_col_idx <= 0) {
 			console.log("Cannot retreat cursor");
-            if (this.current_focus) this.current_focus.focus();
+            if (this.current_focus) this.current_focus.focus({ preventScroll: true });
 			return;
 		}
 
@@ -160,7 +161,7 @@ export class TextBox {
 		if (!this.current_focus) throw new Error("Cell does not exist");
 
 		this.current_focus.setAttribute("contenteditable", "true");
-		this.current_focus.focus();
+		this.current_focus.focus({ preventScroll: true });
 		this.placeCaretAtEnd(this.current_focus);
 	};
 
