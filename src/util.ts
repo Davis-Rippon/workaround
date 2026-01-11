@@ -75,7 +75,7 @@ export const levenshteinDist = (a: String, b: String): number => {
 
     for (let i = 1; i < a.length; i++) {
         for (let j = 1; j < b.length; j++) {
-            if (a[i] == b[j]) DP[i][j] = DP[i-1][j-1];
+            if (a[i] === b[j]) DP[i][j] = DP[i-1][j-1];
             else {
                 DP[i][j] = Math.min(
                     DP[i][j - 1] + 1,
@@ -87,5 +87,23 @@ export const levenshteinDist = (a: String, b: String): number => {
     }
 
     return DP[a.length - 1][b.length - 1];
+};
 
-}
+export const mongeElkan = (ra: String[], rb: String[]): number => {
+    if (ra.length === 0) return rb.length > 0 ? 1 : 0;
+    if (rb.length === 0) return 1;
+
+    let sum = 0;
+
+    for (const ta of ra) {
+
+        let distMin = Infinity;
+        for (const tb of rb) {
+            const d = levenshteinDist(ta, tb);
+            if (d < distMin) distMin = d;
+            if (distMin === 0) break;
+        }
+        sum += distMin;
+    }
+    return sum/ra.length;
+};
