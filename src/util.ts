@@ -62,16 +62,30 @@ export const syncToggleIcon = () => {
     document.documentElement.dataset.theme === "dark" ? "☀️" : "🌙";
 };
 
+export const levenshteinDist = (a: String, b: String): number => {
+    const DP: number[][] = Array.from({ length: a.length }, () => new Array<number>(b.length));
 
-export const placeCaretAtEnd = (el: HTMLElement) => {
-  const range = document.createRange();
-  const sel = window.getSelection();
-  if (!sel) return;
+    for (let i = 0; i < a.length; i++) {
+        DP[i][0] = i;
+    }
 
-  range.selectNodeContents(el);
-  range.collapse(false); // false = end
+    for (let i = 0; i < b.length; i++) {
+        DP[0][i] = i;
+    }
 
-  sel.removeAllRanges();
-  sel.addRange(range);
+    for (let i = 1; i < a.length; i++) {
+        for (let j = 1; j < b.length; j++) {
+            if (a[i] == b[j]) DP[i][j] = DP[i-1][j-1];
+            else {
+                DP[i][j] = Math.min(
+                    DP[i][j - 1] + 1,
+                    DP[i - 1][j] + 1,
+                    DP[i - 1][j - 1] + 1,
+                );
+            }
+        }
+    }
+
+    return DP[a.length - 1][b.length - 1];
+
 }
-
