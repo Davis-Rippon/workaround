@@ -1,3 +1,4 @@
+import { ce } from "./main";
 import type { State } from "./types";
 import { Constants, getObject, parseQuantifier } from "./util";
 
@@ -71,7 +72,9 @@ export class TextBox {
 		const entry_html = getObject(this.object, `entry-${this.cursor_row_idx}`);
 		entry_html.setAttribute("class", "entry");
 		entry_html.innerHTML = `
-		<div class="cell" data-col="0"></div>
+        <div class="container">
+		<div class="cell"" inputmode="search" data-col="0"></div>
+        </div>
 		<div class="cell" inputmode="decimal" data-col="1"></div>
 		<div class="cell" inputmode="decimal" data-col="2"></div>
 		`
@@ -79,7 +82,7 @@ export class TextBox {
 
 
 
-    private onInput = () => {
+    private onInput = (event: Event) => {
         if (!this.current_focus) return;
 
         let entry = this.state[this.cursor_row_idx];
@@ -87,6 +90,20 @@ export class TextBox {
 		switch (this.cursor_col_idx) {
 			case 0:
 				entry.name = this.current_focus.innerText;
+                let suggestions = document.getElementById("suggest");
+                if (!suggestions) break;
+                // NOTES 
+                // We are going to use ul/li with both onclick and some kind of callback to 
+                //  1. Tab 
+                //  2. Enter
+                //  3. Maybe an additional button to select
+                //  4. onclick
+
+                suggestions.innerHTML = "<ul>" 
+                                        + ce.query(entry.name.split(' ')).map(x => `<li>` + x + `</li>`).join(' ') 
+                                        + "</ul>";
+
+                
 			break;
 			case 1:
 
@@ -100,12 +117,32 @@ export class TextBox {
         console.log(this.state);
     }
 
-    set current_focus(el : HTMLElement | null) {
+    private destroySuggestionBox = () => { document.getElementById("suggest")?.remove(); }
+    private suggestionsBox: HTMLDivElement = (() => {
+        const div = document.createElement("div");
+        div.id = "suggest";
+        div.classList.add("suggestions", "hide-scrollbar");
+        return div;
+    })();
+
+    private onFocusShowSuggestions = () => {
+        this._current_focus?.after(this.suggestionsBox);
+    };
+
+
+    set current_focus(el: HTMLElement | null) {
         this._current_focus?.removeEventListener('input', this.onInput);
+        this._current_focus?.removeEventListener('blur', this.destroySuggestionBox);
+        this._current_focus?.removeEventListener('focus', this.onFocusShowSuggestions);
 
         this._current_focus = el;
 
         this._current_focus?.addEventListener('input', this.onInput);
+
+        if (this.cursor_col_idx === 0) {
+            this._current_focus?.addEventListener('blur', this.destroySuggestionBox);
+            this._current_focus?.addEventListener('focus', this.onFocusShowSuggestions);
+        }
     }
 
     get current_focus() {
