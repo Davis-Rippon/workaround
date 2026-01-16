@@ -96,13 +96,13 @@ document.getElementById("tab-r")?.addEventListener('click', tb.advanceCursor);
 document.getElementById("tab-l")?.addEventListener('click', tb.retreatCursor);
 
 document.addEventListener('keydown', (e) => {
-	if (e.key === "Tab" && e.shiftKey) {
-		e.preventDefault();
-		tb.retreatCursor();
-	} else if (e.key === "Tab") {
-		e.preventDefault();
-		tb.advanceCursor();
-	}
+    if (e.key === "Tab" && e.shiftKey) {
+        e.preventDefault();
+        tb.retreatCursor();
+    } else if (e.key === "Tab") {
+        e.preventDefault();
+        tb.advanceCursor();
+    }
 });
 
 document.getElementById("toggle")?.addEventListener('click', toggleBrightness);
