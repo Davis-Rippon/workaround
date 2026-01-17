@@ -2,6 +2,7 @@ import { CompletionEngine } from './completion_engine';
 import './style.css'
 import { TextBox } from './textbox';
 import { toggleBrightness } from './util';
+import { sendMessage } from "./popup";
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 <div>
@@ -10,6 +11,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 		<div class="navigation">
 			<button id="tab-l">←</button>
 			<button id="tab-r">→</button>
+            <button id="clipboard">📋</button>
 		</div>
 	</div>
 </div>
@@ -103,6 +105,12 @@ document.addEventListener('keydown', (e) => {
         e.preventDefault();
         tb.advanceCursor();
     }
+});
+
+
+document.getElementById("clipboard")?.addEventListener('click', () => {
+    sendMessage("Saved to Clipboard");
+    tb.saveToClipboard();
 });
 
 document.getElementById("toggle")?.addEventListener('click', toggleBrightness);
