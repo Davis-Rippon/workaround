@@ -82,7 +82,7 @@ export class TextBox {
 
 
 
-    private onInput = (event: Event) => {
+    private onInput = () => {
         if (!this.current_focus) return;
 
         let entry = this.state[this.cursor_row_idx];
@@ -173,7 +173,7 @@ export class TextBox {
         // Check if suggestion box is visible
 
         // Scroll up/down
-        if (e.key === "." && e.shiftKey || e.key === ">") {
+        if (e.key === "." && (e.shiftKey || e.getModifierState("CapsLock")) || e.key === ">") {
             e.preventDefault();
             if (this.selectionIndex != 0) {
                 this.selectionIndex = (this.selectionIndex - 1) 
