@@ -33,6 +33,25 @@ export class TextBox {
 		sel.addRange(range);
 	}
 
+    private asString() : string {
+        let out = "";
+        for (const element of this.state) {
+            const {name, quantifierA, quantifierB} = element;
+            out += `${name}: ${parseQuantifier(quantifierA)} ${parseQuantifier(quantifierB)} \n`
+        }
+
+        return out;
+    }
+
+    public async saveToClipboard() {
+        try {
+            await navigator.clipboard.writeText(this.asString());
+        } catch (err) {
+            return false;
+        }
+
+        return true;
+    }
 
 	/*
 	 * Render changes to a specifc entry 

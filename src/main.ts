@@ -108,9 +108,12 @@ document.addEventListener('keydown', (e) => {
 });
 
 
-document.getElementById("clipboard")?.addEventListener('click', () => {
-    sendMessage("Saved to Clipboard");
-    tb.saveToClipboard();
+document.getElementById("clipboard")?.addEventListener('click', async () => {
+    if (await tb.saveToClipboard()) {
+        sendMessage("Saved to Clipboard");
+        return;
+    }
+    sendMessage("Failed to save to Clipboard");
 });
 
 document.getElementById("toggle")?.addEventListener('click', toggleBrightness);
