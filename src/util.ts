@@ -36,7 +36,12 @@ export const parseQuantifier = (q: Quantifier | null | undefined) => {
 	if (!q) return "";
 
 	const {value, unit} = q;
-	return `${value}${unit}`;
+
+    if (unit == "kg") 
+        return `${value}${unit}`;
+
+    if (unit == "r/s")
+        return value;
 }
 
 export const toggleBrightness = () => {

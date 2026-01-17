@@ -7,7 +7,7 @@ export type Entry = {
 };
 
 export type Quantifier = {
-	value: number;
+	value: string;
 	unit: Unit;
 };
 
@@ -15,4 +15,5 @@ type Unit =
 	"kg" |
 	"min"|
 	"km" |
+   "r/s"|
 	null;
