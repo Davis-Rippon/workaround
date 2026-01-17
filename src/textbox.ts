@@ -121,12 +121,13 @@ export class TextBox {
 			default:
 				throw new Error("Invalid cursor_col_idx");
 		}
-
-        console.log(this.state);
     }
 
     private destroySuggestionBox = () => { document.getElementById("suggest")?.remove(); }
+    private selectionIndex = 0;
     private suggestionsBox: HTMLDivElement = (() => {
+        // When a suggestion box is created we set the index to 0
+        this.selectionIndex = 0;
         const div = document.createElement("div");
         div.id = "suggest";
         div.classList.add("suggestions", "hide-scrollbar");
