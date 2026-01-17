@@ -133,13 +133,17 @@ export class TextBox {
                 
 			break;
 			case 1:
+                entry.quantifierA = {value: this.current_focus.innerText, unit: "kg"};
 
 			break;
 			case 2:
+                entry.quantifierB = {value: this.current_focus.innerText, unit: "r/s"};
 			break;
 			default:
 				throw new Error("Invalid cursor_col_idx");
 		}
+
+        console.log(this.state);
     }
 
     private destroySuggestionBox = () => { document.getElementById("suggest")?.remove(); }
@@ -171,6 +175,7 @@ export class TextBox {
         if (s && this.current_focus) {
             this.current_focus.innerText = s.innerText;
             this.destroySuggestionBox();
+            this.state[this.cursor_row_idx].name = s.innerText;
             this.advanceCursor();
         }
     }
