@@ -21,4 +21,6 @@ export class CompletionEngine {
 
         return out;
     }
+
+    public size(): number { return this.tokenisedWords.length };
 }
