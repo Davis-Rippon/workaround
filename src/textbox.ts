@@ -150,7 +150,35 @@ export class TextBox {
         });
     }
 
+    private handleSuggestSelection = (e: KeyboardEvent) => {
+        // Check if suggestion box is visible
+
+        // Scroll up/down
+        if (e.key === "." && e.shiftKey || e.key === ">") {
+            e.preventDefault();
+            if (this.selectionIndex != 0) {
+                this.selectionIndex = (this.selectionIndex - 1) 
+            }
+
+            console.log("Retr");
+            this.highlightSuggestion();
+
+        } else if (e.key === ".") {
+            e.preventDefault();
+            this.selectionIndex = (this.selectionIndex + 1) % ce.size()
+            this.highlightSuggestion();
+            console.log("Adv");
+        }
+
+        if (e.key === "Enter") {
+            e.preventDefault();
+            this.selectSuggestion(this.selectionIndex);
+        }
+
+    };
+
     set current_focus(el: HTMLElement | null) {
+        this._current_focus?.removeEventListener('keydown', this.handleSuggestSelection);
         this._current_focus?.removeEventListener('input', this.onInput);
         this._current_focus?.removeEventListener('blur', this.destroySuggestionBox);
         this._current_focus?.removeEventListener('focus', this.onFocusShowSuggestions);
@@ -162,6 +190,8 @@ export class TextBox {
         if (this.cursor_col_idx === 0) {
             this._current_focus?.addEventListener('blur', this.destroySuggestionBox);
             this._current_focus?.addEventListener('focus', this.onFocusShowSuggestions);
+
+            this._current_focus?.addEventListener('keydown', this.handleSuggestSelection);
         }
     }
 
