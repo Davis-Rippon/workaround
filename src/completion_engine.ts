@@ -9,7 +9,7 @@ export class CompletionEngine {
 
     constructor(strs: string[]) {
         for (const str of strs) {
-            this.tokenisedWords.push({ tokens: str.split(' '), original: str });
+            this.tokenisedWords.push({ tokens: str.toLowerCase().split(' '), original: str });
         }
     }
     

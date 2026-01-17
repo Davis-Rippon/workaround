@@ -1,6 +1,6 @@
 import type { Quantifier } from "./types";
 
-export const EMPTY_QUANTIFIER: Quantifier = { value: 0, unit: null };
+export const EMPTY_QUANTIFIER: Quantifier = { value: "", unit: null };
 
 export const HEADER_ENTRY = {
   name: "<p style=\"text-decoration: underline;\">Exercise</p>",
