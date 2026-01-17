@@ -134,8 +134,26 @@ export class TextBox {
     })();
 
     private onFocusShowSuggestions = () => {
-        this._current_focus?.after(this.suggestionsBox);
+        const suggestions = this.suggestionsBox;
+        this._current_focus?.after(suggestions);
+        this.selectionIndex = 0;
+        this.highlightSuggestion();
+
     };
+
+    private selectSuggestion = (index: number = this.selectionIndex) => {
+        const suggestionbox = document.getElementById('suggest');
+
+        if (!suggestionbox || !this.current_focus) return;
+
+        const s = suggestionbox?.querySelector(`[data-col="${index}"]`) as HTMLElement | null;
+
+        if (s && this.current_focus) {
+            this.current_focus.innerText = s.innerText;
+            this.destroySuggestionBox();
+            this.advanceCursor();
+        }
+    }
 
     private highlightSuggestion() {
         const suggestionbox = document.getElementById('suggest');
