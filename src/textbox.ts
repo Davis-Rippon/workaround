@@ -96,6 +96,21 @@ export class TextBox {
                                         + ce.query(entry.name.split(' ')).map((x, i) => `<li data-col="${i}">` + x + `</li>`).join(' ') 
                                         + "</ul>";
 
+
+                // Clicking selects a suggestion
+                const items = suggestions.querySelectorAll<HTMLLIElement>("li");
+
+                items.forEach((li) => {
+                    li.addEventListener("mousedown", (e) => {
+                        const index = Number(li.dataset.col);
+                        e.preventDefault();
+                        this.selectSuggestion(index);
+                        this.destroySuggestionBox();
+                    });
+                });
+
+                this.highlightSuggestion();
+
                 
 			break;
 			case 1:
@@ -122,6 +137,18 @@ export class TextBox {
         this._current_focus?.after(this.suggestionsBox);
     };
 
+    private highlightSuggestion() {
+        const suggestionbox = document.getElementById('suggest');
+
+
+        suggestionbox?.querySelectorAll('li').forEach((el, idx) => {
+            if (idx === this.selectionIndex) {
+                el.classList.add('highlighted');
+            } else {
+                el.classList.remove('highlighted');
+            }
+        });
+    }
 
     set current_focus(el: HTMLElement | null) {
         this._current_focus?.removeEventListener('input', this.onInput);
