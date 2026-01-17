@@ -17,6 +17,10 @@ I would like to have relevant information for my current workout automatically q
     - Tab button autocompletes field (Multiple options)
     - Ghost of last weight + sets 
     - History DS initialised when page is loaded
+    - Current implementation for ranking is Monge-Elkan with levenshtein as similarity function. This has a big asymptotic complexity but it's ok as:
+        - The absolute worst case # of strings, tokens and characters per token will be an issue.
+        - Need to emphasise correctness
+
 - Text Editing
     - Text State Implementation:
         - list of name, quantifierA, quantifierB
@@ -28,5 +32,5 @@ I would like to have relevant information for my current workout automatically q
 
 ## TODO
 - File Format
-- Text Engine
+- Consider removing the edit distance penalty of a token if it is a prefix
 - Schema
