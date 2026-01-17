@@ -115,7 +115,7 @@ body {
 }
 
 #app {
-  max-width: min(80%, 960px);
+  max-width: min(110%, 1300px);
   padding: var(--space-5);
   text-align: center;
 }
@@ -125,6 +125,8 @@ body {
    ========================================================= */
 
 h1 {
+    margin: 0;
+    text-align: center;
   font-size: clamp(2.5rem, 6vw, 3.5rem);
   line-height: 1.1;
   font-weight: 700;
@@ -221,7 +223,7 @@ button:focus-visible {
    ========================================================= */
 
 .textbox {
-  width: 100%;
+  width: 120%;
   min-height: 200px;
   padding: var(--space-2) var(--space-3);
 
@@ -345,6 +347,7 @@ button:focus-visible {
 }
 
 .suggestions > ul > li:hover,
+.suggestions > ul > li.highlighted,
 .suggestions > ul > li[aria-selected="true"] {
   background: #e5e5e5;
 }
