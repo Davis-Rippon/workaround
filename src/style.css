@@ -223,7 +223,7 @@ button:focus-visible {
    ========================================================= */
 
 .textbox {
-  width: 120%;
+  width: 100%;
   min-height: 200px;
   padding: var(--space-2) var(--space-3);
 
