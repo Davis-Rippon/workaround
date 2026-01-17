@@ -92,15 +92,8 @@ export class TextBox {
 				entry.name = this.current_focus.innerText;
                 let suggestions = document.getElementById("suggest");
                 if (!suggestions) break;
-                // NOTES 
-                // We are going to use ul/li with both onclick and some kind of callback to 
-                //  1. Tab 
-                //  2. Enter
-                //  3. Maybe an additional button to select
-                //  4. onclick
-
                 suggestions.innerHTML = "<ul>" 
-                                        + ce.query(entry.name.split(' ')).map(x => `<li>` + x + `</li>`).join(' ') 
+                                        + ce.query(entry.name.split(' ')).map((x, i) => `<li data-col="${i}">` + x + `</li>`).join(' ') 
                                         + "</ul>";
 
                 
