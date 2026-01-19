@@ -36,6 +36,14 @@ export const ce = new CompletionEngine([
     "Run"
 ]);
 
+const saveClip = async () => {
+    if (await tb.saveToClipboard()) {
+        sendMessage("Saved to Clipboard");
+        return;
+    }
+    sendMessage("Failed to save to Clipboard");
+}
+
 document.getElementById("tab-r")?.addEventListener('click', tb.advanceCursor);
 document.getElementById("tab-l")?.addEventListener('click', tb.retreatCursor);
 
@@ -50,14 +58,9 @@ document.addEventListener('keydown', (e) => {
 });
 
 
-document.getElementById("clipboard")?.addEventListener('click', async () => {
-    if (await tb.saveToClipboard()) {
-        sendMessage("Saved to Clipboard");
-        return;
-    }
-    sendMessage("Failed to save to Clipboard");
-});
+document.getElementById("clipboard")?.addEventListener('click', saveClip);
 
+setInterval(saveClip, 5000);
 
 document.getElementById("toggle")?.addEventListener('click', toggleBrightness);
 document.documentElement.dataset.theme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
